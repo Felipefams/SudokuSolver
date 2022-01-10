@@ -94,7 +94,6 @@ public class SudokuSolver {
                     for (int numberToTry = 1; numberToTry <= GRID_SIZE; ++numberToTry) {
                         if (isValidPlacement(board, numberToTry, row, column)) {
                             board[row][column] = numberToTry;
-
                             // call the function recusively to travel the entire board again checking for
                             // empty spots
                             if (solveBoard(board)) {
