@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long
 static const int GRID_SIZE = 9;
 
 void printBoard(int board[9][9])
