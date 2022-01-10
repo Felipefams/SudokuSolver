@@ -5,72 +5,80 @@ public class SudokuSolver {
 
     public static void main(String[] args) {
 
-        // 0 is acting as placeholders for blanks
         int[][] board = {
-                { 7, 0, 2, 0, 5, 0, 6, 0, 0 },
-                { 0, 0, 0, 0, 0, 3, 0, 0, 0 },
-                { 1, 0, 0, 0, 0, 9, 5, 0, 0 },
-                { 8, 0, 0, 0, 0, 0, 0, 9, 0 },
-                { 0, 4, 3, 0, 0, 0, 7, 5, 0 },
-                { 0, 9, 0, 0, 0, 0, 0, 0, 8 },
-                { 0, 0, 9, 7, 0, 0, 0, 0, 5 },
-                { 0, 0, 0, 2, 0, 0, 0, 0, 0 },
-                { 0, 0, 7, 0, 4, 0, 2, 0, 3 }
+                { 0, 9, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 6, 0, 0, 0, 5, 0 },
+                { 2, 0, 4, 0, 0, 7, 8, 0, 0 },
+                { 0, 8, 0, 0, 0, 9, 0, 0, 0 },
+                { 3, 0, 9, 7, 0, 0, 0, 0, 6 },
+                { 0, 1, 0, 0, 0, 0, 3, 0, 0 },
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 2, 0, 0, 0, 8 },
+                { 7, 0, 3, 0, 0, 4, 2, 0, 0 }
         };
 
-        // print the board before the
         printBoard(board);
 
         if (solveBoard(board)) {
-            System.out.println("Solved Sucessfully!");
+            System.out.println("Solved successfully!");
         } else {
-            System.out.println("Unsolvable board :/ ");
+            System.out.println("Unsolvable board :(");
         }
 
         printBoard(board);
+
     }
 
     private static void printBoard(int[][] board) {
-        for (int row = 0; row < GRID_SIZE; ++row) {
+        for (int row = 0; row < GRID_SIZE; row++) {
             if (row % 3 == 0 && row != 0) {
-                System.out.println("----------------------");
+                System.out.println("-----------");
             }
-            for (int column = 0; column < GRID_SIZE; ++column) {
+            for (int column = 0; column < GRID_SIZE; column++) {
                 if (column % 3 == 0 && column != 0) {
                     System.out.print("|");
                 }
-                System.out.print(" " + board[row][column]);
+                System.out.print(board[row][column]);
             }
             System.out.println();
         }
-
     }
 
-    private static boolean isNumberInRow(int[][] board, int number, int row) {
-        for (int i = 0; i < GRID_SIZE; ++i) {
-            if (board[row][i] == number) {
+    private static boolean isNumberInRow(int[][] board, int number, int row) 
+    {
+        for (int i = 0; i < GRID_SIZE; i++) 
+        {
+            if (board[row][i] == number) 
+            {
                 return true;
             }
         }
         return false;
     }
 
-    private static boolean isNumberInColumn(int[][] board, int number, int column) {
-        for (int i = 0; i < GRID_SIZE; ++i) {
-            if (board[i][column] == number) {
+    private static boolean isNumberInColumn(int[][] board, int number, int column) 
+    {
+        for (int i = 0; i < GRID_SIZE; i++) 
+        {
+            if (board[i][column] == number) 
+            {
                 return true;
             }
         }
         return false;
     }
 
-    // boolean to check the boxes (3x3 squares with numbers from 1 to 9)
-    private static boolean isNumberInBox(int[][] board, int number, int row, int column) {
+    private static boolean isNumberInBox(int[][] board, int number, int row, int column) 
+    {
         int localBoxRow = row - row % 3;
         int localBoxColumn = column - column % 3;
-        for (int i = localBoxRow; i < localBoxRow + 3; ++i) {
-            for (int k = localBoxColumn; k < localBoxColumn; ++k) {
-                if (board[i][k] == number) {
+
+        for (int i = localBoxRow; i < localBoxRow + 3; i++) 
+        {
+            for (int j = localBoxColumn; j < localBoxColumn + 3; j++)
+             {
+                if (board[i][j] == number)
+                 {
                     return true;
                 }
             }
@@ -78,30 +86,32 @@ public class SudokuSolver {
         return false;
     }
 
-    private static boolean isValidPlacement(int[][] board, int number, int row, int column) {
+    private static boolean isValidPlacement(int[][] board, int number, int row, int column) 
+    {
         return !isNumberInRow(board, number, row) &&
                 !isNumberInColumn(board, number, column) &&
                 !isNumberInBox(board, number, row, column);
     }
 
-    private static boolean solveBoard(int[][] board) {
-        // nested loop to go through the matrix(board)
-        for (int row = 0; row < GRID_SIZE; ++row) {
-            for (int column = 0; column < GRID_SIZE; ++column) {
-                // check if theres space for the number
-                if (board[row][column] == 0) {
-                    // try all numbers starting from one
-                    for (int numberToTry = 1; numberToTry <= GRID_SIZE; ++numberToTry) {
-                        if (isValidPlacement(board, numberToTry, row, column)) {
+    private static boolean solveBoard(int[][] board)
+     {
+        for (int row = 0; row < GRID_SIZE; row++) 
+        {
+            for (int column = 0; column < GRID_SIZE; column++) 
+            {
+                if (board[row][column] == 0) 
+                {
+                    for (int numberToTry = 1; numberToTry <= GRID_SIZE; numberToTry++) 
+                    {
+                        if (isValidPlacement(board, numberToTry, row, column)) 
+                        {
                             board[row][column] = numberToTry;
-                            // call the function recusively to travel the entire board again checking for
-                            // empty spots
-                            if (solveBoard(board)) {
+
+                            if (solveBoard(board)) 
+                            {
                                 return true;
-                            } else {
-                                // if there's no way to solve the rest of the board with numberToTry in position
-                                // [row][column]
-                                // we set the position to zero again and try with other number
+                            } else 
+                            {
                                 board[row][column] = 0;
                             }
                         }
